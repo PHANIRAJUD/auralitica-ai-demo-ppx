@@ -1,0 +1,21 @@
+feedback,source_type,customer_id,timestamp
+"Great product! Really satisfied with the quality and service.",email,customer_1001,2025-01-01T10:00:00
+"Excellent customer support. They resolved my issue quickly.",chat,customer_1002,2025-01-01T11:00:00
+"Love this product! Highly recommend to everyone.",review,customer_1003,2025-01-01T12:00:00
+"Terrible experience. Product didn't work as expected.",email,customer_1004,2025-01-01T13:00:00
+"Poor customer service. No one responded to my complaints.",phone,customer_1005,2025-01-01T14:00:00
+"The product is okay. Nothing special but does the job.",survey,customer_1006,2025-01-01T15:00:00
+"Amazing experience. Fast delivery and great packaging.",review,customer_1007,2025-01-01T16:00:00
+"Product quality is awful. Broke after one use.",email,customer_1008,2025-01-01T17:00:00
+"Outstanding service. The team was very helpful and professional.",chat,customer_1009,2025-01-01T18:00:00
+"It's an okay product for the price point.",survey,customer_1010,2025-01-01T19:00:00
+"Perfect! Exactly what I needed. Will buy again.",review,customer_1011,2025-01-02T10:00:00
+"Delivery was extremely slow and packaging was damaged.",email,customer_1012,2025-01-02T11:00:00
+"Fantastic quality. Worth every penny spent.",review,customer_1013,2025-01-02T12:00:00
+"Overpriced for what you get. Not worth the money.",survey,customer_1014,2025-01-02T13:00:00
+"Website is confusing and difficult to navigate.",chat,customer_1015,2025-01-02T14:00:00
+"Superb customer service. Very responsive and friendly.",phone,customer_1016,2025-01-02T15:00:00
+"Product description was misleading. Got something different.",email,customer_1017,2025-01-02T16:00:00
+"Brilliant product design. Works flawlessly.",review,customer_1018,2025-01-02T17:00:00
+"Customer support was rude and unhelpful.",chat,customer_1019,2025-01-02T18:00:00
+"Exceeded my expectations. Truly impressed with the service.",survey,customer_1020,2025-01-02T19:00:00

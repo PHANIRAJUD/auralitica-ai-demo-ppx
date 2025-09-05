@@ -1,0 +1,434 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AuralyTica Tel AI - Multi-Agent Customer Sentiment Analysis</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <!-- Hero Section -->
+    <header class="hero">
+        <div class="container">
+            <div class="hero__content">
+                <div class="hero__text">
+                    <h1 class="hero__title">AuralyTica Tel AI</h1>
+                    <p class="hero__subtitle">Multi-Agent Customer Sentiment Analysis System</p>
+                    <p class="hero__description">
+                        Powered by 4 intelligent agents working together to analyze customer feedback 
+                        in real-time using advanced NLP and AI technologies.
+                    </p>
+                    <button class="btn btn--primary btn--lg" onclick="scrollToDemo()">Try Live Demo</button>
+                </div>
+                <div class="hero__diagram">
+                    <div class="architecture-diagram">
+                        <div class="agent-card" data-agent="preprocessing">
+                            <div class="agent-icon">🔧</div>
+                            <h4>Preprocessing Agent</h4>
+                            <p>Data cleaning & validation</p>
+                        </div>
+                        <div class="flow-arrow">→</div>
+                        <div class="agent-card" data-agent="sentiment">
+                            <div class="agent-icon">🧠</div>
+                            <h4>Sentiment Agent</h4>
+                            <p>Multi-model analysis</p>
+                        </div>
+                        <div class="flow-arrow">→</div>
+                        <div class="agent-card" data-agent="insight">
+                            <div class="agent-icon">💡</div>
+                            <h4>Insight Agent</h4>
+                            <p>Theme & emotion extraction</p>
+                        </div>
+                        <div class="flow-arrow">→</div>
+                        <div class="agent-card" data-agent="visualization">
+                            <div class="agent-icon">📊</div>
+                            <h4>Visualization Agent</h4>
+                            <p>Charts & dashboards</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Navigation -->
+    <nav class="nav">
+        <div class="container">
+            <div class="nav__content">
+                <div class="nav__brand">AuralyTica Tel AI</div>
+                <div class="nav__links">
+                    <a href="#demo" class="nav__link">Demo</a>
+                    <a href="#dashboard" class="nav__link">Dashboard</a>
+                    <a href="#features" class="nav__link">Features</a>
+                    <a href="#tech" class="nav__link">Technology</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Demo Section -->
+    <section id="demo" class="demo">
+        <div class="container">
+            <div class="section-header">
+                <h2>Live Sentiment Analysis Demo</h2>
+                <p>Enter customer feedback below and watch our multi-agent system analyze it in real-time</p>
+            </div>
+            
+            <div class="demo__content">
+                <div class="demo__input">
+                    <div class="form-group">
+                        <label class="form-label" for="feedback-text">Customer Feedback</label>
+                        <textarea 
+                            id="feedback-text" 
+                            class="form-control" 
+                            rows="4" 
+                            placeholder="Enter customer feedback here... (e.g., 'Great product! Really satisfied with the quality and service.')">
+                        </textarea>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label" for="source-type">Feedback Source</label>
+                        <select id="source-type" class="form-control">
+                            <option value="email">Email</option>
+                            <option value="chat">Live Chat</option>
+                            <option value="phone">Phone Call</option>
+                            <option value="survey">Survey</option>
+                            <option value="review">Product Review</option>
+                        </select>
+                    </div>
+                    
+                    <button id="analyze-btn" class="btn btn--primary btn--full-width">
+                        Analyze Sentiment
+                    </button>
+                    
+                    <div class="sample-examples">
+                        <p class="form-label">Try these examples:</p>
+                        <div class="example-buttons">
+                            <button class="btn btn--outline btn--sm example-btn" data-text="Great product! Really satisfied with the quality and service.">Positive Example</button>
+                            <button class="btn btn--outline btn--sm example-btn" data-text="Terrible experience. Product didn't work as expected.">Negative Example</button>
+                            <button class="btn btn--outline btn--sm example-btn" data-text="The product is okay. Nothing special but does the job.">Neutral Example</button>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="demo__processing">
+                    <div class="processing-pipeline" id="processing-pipeline" style="display: none;">
+                        <h3>Multi-Agent Processing Pipeline</h3>
+                        <div class="pipeline-steps">
+                            <div class="pipeline-step" data-step="preprocessing">
+                                <div class="step-icon">🔧</div>
+                                <div class="step-content">
+                                    <h4>Preprocessing Agent</h4>
+                                    <p>Cleaning and validating input data...</p>
+                                    <div class="step-status">⏳ Processing</div>
+                                </div>
+                            </div>
+                            <div class="pipeline-step" data-step="sentiment">
+                                <div class="step-icon">🧠</div>
+                                <div class="step-content">
+                                    <h4>Sentiment Analysis Agent</h4>
+                                    <p>Running VADER, TextBlob, and Transformer models...</p>
+                                    <div class="step-status">⏳ Waiting</div>
+                                </div>
+                            </div>
+                            <div class="pipeline-step" data-step="insight">
+                                <div class="step-icon">💡</div>
+                                <div class="step-content">
+                                    <h4>Insight Extraction Agent</h4>
+                                    <p>Extracting themes, emotions, and patterns...</p>
+                                    <div class="step-status">⏳ Waiting</div>
+                                </div>
+                            </div>
+                            <div class="pipeline-step" data-step="visualization">
+                                <div class="step-icon">📊</div>
+                                <div class="step-content">
+                                    <h4>Visualization Agent</h4>
+                                    <p>Generating results and insights...</p>
+                                    <div class="step-status">⏳ Waiting</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="demo__results" id="demo-results" style="display: none;">
+                    <h3>Analysis Results</h3>
+                    <div class="results-grid">
+                        <div class="result-card">
+                            <h4>Overall Sentiment</h4>
+                            <div class="sentiment-result">
+                                <div class="sentiment-label" id="sentiment-label">Positive</div>
+                                <div class="confidence-score" id="confidence-score">92%</div>
+                            </div>
+                        </div>
+                        
+                        <div class="result-card">
+                            <h4>Detected Themes</h4>
+                            <div class="themes-list" id="themes-list">
+                                <!-- Themes will be populated by JS -->
+                            </div>
+                        </div>
+                        
+                        <div class="result-card">
+                            <h4>Emotional Analysis</h4>
+                            <div class="emotions-list" id="emotions-list">
+                                <!-- Emotions will be populated by JS -->
+                            </div>
+                        </div>
+                        
+                        <div class="result-card">
+                            <h4>Processing Stats</h4>
+                            <div class="stats-content">
+                                <div class="stat-item">
+                                    <span class="stat-label">Processing Time:</span>
+                                    <span class="stat-value" id="processing-time">1.8s</span>
+                                </div>
+                                <div class="stat-item">
+                                    <span class="stat-label">Models Used:</span>
+                                    <span class="stat-value">3</span>
+                                </div>
+                                <div class="stat-item">
+                                    <span class="stat-label">Agent Status:</span>
+                                    <span class="stat-value status--success">All Active</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Dashboard Section -->
+    <section id="dashboard" class="dashboard">
+        <div class="container">
+            <div class="section-header">
+                <h2>Analytics Dashboard</h2>
+                <p>Real-time insights from customer feedback analysis</p>
+            </div>
+            
+            <div class="metrics-grid">
+                <div class="metric-card">
+                    <div class="metric-icon">📊</div>
+                    <div class="metric-content">
+                        <h3>1,247</h3>
+                        <p>Total Feedback Processed</p>
+                    </div>
+                </div>
+                <div class="metric-card">
+                    <div class="metric-icon">😊</div>
+                    <div class="metric-content">
+                        <h3>42%</h3>
+                        <p>Positive Sentiment</p>
+                    </div>
+                </div>
+                <div class="metric-card">
+                    <div class="metric-icon">📈</div>
+                    <div class="metric-content">
+                        <h3>89%</h3>
+                        <p>Analysis Accuracy</p>
+                    </div>
+                </div>
+                <div class="metric-card">
+                    <div class="metric-icon">⚡</div>
+                    <div class="metric-content">
+                        <h3>1.8s</h3>
+                        <p>Avg Processing Time</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="charts-grid">
+                <div class="chart-container">
+                    <div class="card">
+                        <div class="card__body">
+                            <h3>Sentiment Distribution</h3>
+                            <div class="chart-wrapper" style="position: relative; height: 300px;">
+                                <canvas id="sentiment-chart"></canvas>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="chart-container">
+                    <div class="card">
+                        <div class="card__body">
+                            <h3>Top Themes</h3>
+                            <div class="chart-wrapper" style="position: relative; height: 300px;">
+                                <canvas id="themes-chart"></canvas>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section id="features" class="features">
+        <div class="container">
+            <div class="section-header">
+                <h2>Advanced AI Features</h2>
+                <p>Comprehensive sentiment analysis powered by cutting-edge technology</p>
+            </div>
+            
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">🔍</div>
+                    <h3>Multi-Model Analysis</h3>
+                    <p>Combines VADER, TextBlob, and Transformer models for maximum accuracy and reliability in sentiment detection.</p>
+                    <ul>
+                        <li>VADER sentiment scoring</li>
+                        <li>TextBlob polarity analysis</li>
+                        <li>Transformer-based classification</li>
+                        <li>Ensemble model voting</li>
+                    </ul>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">🎯</div>
+                    <h3>Theme Extraction</h3>
+                    <p>Automatically identifies key topics, themes, and entities mentioned in customer feedback using NLP techniques.</p>
+                    <ul>
+                        <li>Topic modeling</li>
+                        <li>Keyword extraction</li>
+                        <li>Entity recognition</li>
+                        <li>Pattern detection</li>
+                    </ul>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">❤️</div>
+                    <h3>Emotion Detection</h3>
+                    <p>Goes beyond sentiment to detect specific emotions like joy, anger, trust, and frustration in customer communications.</p>
+                    <ul>
+                        <li>Emotion classification</li>
+                        <li>Intensity scoring</li>
+                        <li>Multi-emotion detection</li>
+                        <li>Contextual analysis</li>
+                    </ul>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">⚡</div>
+                    <h3>Real-Time Processing</h3>
+                    <p>Process customer feedback instantly with our optimized multi-agent pipeline delivering results in under 2 seconds.</p>
+                    <ul>
+                        <li>Sub-second processing</li>
+                        <li>Parallel agent execution</li>
+                        <li>Scalable architecture</li>
+                        <li>Live status monitoring</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Technology Section -->
+    <section id="tech" class="tech">
+        <div class="container">
+            <div class="section-header">
+                <h2>Technology Stack</h2>
+                <p>Built with industry-leading AI and cloud technologies</p>
+            </div>
+            
+            <div class="tech-grid">
+                <div class="tech-category">
+                    <h3>AI & Machine Learning</h3>
+                    <div class="tech-items">
+                        <span class="tech-tag">Python</span>
+                        <span class="tech-tag">NLTK</span>
+                        <span class="tech-tag">spaCy</span>
+                        <span class="tech-tag">Transformers</span>
+                        <span class="tech-tag">VADER</span>
+                        <span class="tech-tag">TextBlob</span>
+                    </div>
+                </div>
+                
+                <div class="tech-category">
+                    <h3>Cloud & Infrastructure</h3>
+                    <div class="tech-items">
+                        <span class="tech-tag">Azure AI</span>
+                        <span class="tech-tag">LangChain</span>
+                        <span class="tech-tag">Docker</span>
+                        <span class="tech-tag">Kubernetes</span>
+                        <span class="tech-tag">Redis</span>
+                        <span class="tech-tag">PostgreSQL</span>
+                    </div>
+                </div>
+                
+                <div class="tech-category">
+                    <h3>Multi-Agent Framework</h3>
+                    <div class="tech-items">
+                        <span class="tech-tag">Agent Orchestration</span>
+                        <span class="tech-tag">Pipeline Management</span>
+                        <span class="tech-tag">State Management</span>
+                        <span class="tech-tag">Event-Driven Architecture</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="agent-details">
+                <div class="agent-detail-card">
+                    <h4>🔧 Preprocessing Agent</h4>
+                    <p>Handles data cleaning, deduplication, and normalization with advanced text preprocessing techniques.</p>
+                    <div class="capabilities">
+                        <span class="capability">Text Cleaning</span>
+                        <span class="capability">Duplicate Removal</span>
+                        <span class="capability">Data Validation</span>
+                    </div>
+                </div>
+                
+                <div class="agent-detail-card">
+                    <h4>🧠 Sentiment Analysis Agent</h4>
+                    <p>Multi-model sentiment classification using VADER, TextBlob, and state-of-the-art Transformer models.</p>
+                    <div class="capabilities">
+                        <span class="capability">VADER Sentiment</span>
+                        <span class="capability">TextBlob Analysis</span>
+                        <span class="capability">Transformer Models</span>
+                        <span class="capability">Azure AI Integration</span>
+                    </div>
+                </div>
+                
+                <div class="agent-detail-card">
+                    <h4>💡 Insight Extraction Agent</h4>
+                    <p>Advanced NLP for theme identification, emotion detection, and extracting actionable insights.</p>
+                    <div class="capabilities">
+                        <span class="capability">Theme Identification</span>
+                        <span class="capability">Emotion Detection</span>
+                        <span class="capability">Entity Extraction</span>
+                    </div>
+                </div>
+                
+                <div class="agent-detail-card">
+                    <h4>📊 Visualization Agent</h4>
+                    <p>Creates interactive dashboards, real-time charts, and intelligent alerts for business insights.</p>
+                    <div class="capabilities">
+                        <span class="capability">Interactive Charts</span>
+                        <span class="capability">Real-time Dashboards</span>
+                        <span class="capability">Alert Generation</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer__content">
+                <div class="footer__brand">
+                    <h3>AuralyTica Tel AI</h3>
+                    <p>Advanced Multi-Agent Customer Sentiment Analysis</p>
+                </div>
+                <div class="footer__info">
+                    <p>© 2025 AuralyTica Tel AI. Powered by advanced AI and machine learning technologies.</p>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="app.js"></script>
+</body>
+</html>

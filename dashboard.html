@@ -1,0 +1,363 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AuralyTica Tel AI Dashboard</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+    <link href="{{ url_for('static', filename='css/style.css') }}" rel="stylesheet">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="/">
+                <i class="fas fa-brain me-2"></i>
+                AuralyTica Tel AI Dashboard
+            </a>
+            <div class="navbar-nav ms-auto">
+                <a class="nav-link" href="/">
+                    <i class="fas fa-home me-1"></i>Home
+                </a>
+                <button class="btn btn-outline-light btn-sm" onclick="refreshDashboard()">
+                    <i class="fas fa-sync-alt me-1"></i>Refresh
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Dashboard Content -->
+    <div class="container-fluid py-4">
+        <!-- Key Metrics Row -->
+        <div class="row mb-4">
+            <div class="col-md-3 col-sm-6 mb-3">
+                <div class="metric-card">
+                    <div class="metric-icon bg-primary">
+                        <i class="fas fa-comments"></i>
+                    </div>
+                    <div class="metric-content">
+                        <h3 id="totalFeedback">-</h3>
+                        <p>Total Feedback</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3 col-sm-6 mb-3">
+                <div class="metric-card">
+                    <div class="metric-icon bg-success">
+                        <i class="fas fa-heart"></i>
+                    </div>
+                    <div class="metric-content">
+                        <h3 id="overallSentiment">-</h3>
+                        <p>Overall Sentiment</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3 col-sm-6 mb-3">
+                <div class="metric-card">
+                    <div class="metric-icon bg-info">
+                        <i class="fas fa-percentage"></i>
+                    </div>
+                    <div class="metric-content">
+                        <h3 id="avgConfidence">-</h3>
+                        <p>Avg Confidence</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3 col-sm-6 mb-3">
+                <div class="metric-card">
+                    <div class="metric-icon bg-warning">
+                        <i class="fas fa-exclamation-triangle"></i>
+                    </div>
+                    <div class="metric-content">
+                        <h3 id="alertsCount">-</h3>
+                        <p>Active Alerts</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Charts Row -->
+        <div class="row mb-4">
+            <div class="col-lg-6 mb-3">
+                <div class="chart-card">
+                    <div class="chart-header">
+                        <h5><i class="fas fa-chart-pie me-2"></i>Sentiment Distribution</h5>
+                    </div>
+                    <div class="chart-body">
+                        <div id="sentimentChart"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-6 mb-3">
+                <div class="chart-card">
+                    <div class="chart-header">
+                        <h5><i class="fas fa-chart-bar me-2"></i>Top Themes</h5>
+                    </div>
+                    <div class="chart-body">
+                        <div id="themesChart"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Insights Row -->
+        <div class="row mb-4">
+            <div class="col-lg-8 mb-3">
+                <div class="insight-card">
+                    <div class="insight-header">
+                        <h5><i class="fas fa-lightbulb me-2"></i>Key Insights</h5>
+                    </div>
+                    <div class="insight-body">
+                        <div id="keyInsights">
+                            <div class="text-center py-4">
+                                <div class="spinner-border text-primary" role="status">
+                                    <span class="visually-hidden">Loading...</span>
+                                </div>
+                                <p class="mt-2">Loading insights...</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-4 mb-3">
+                <div class="emotion-card">
+                    <div class="emotion-header">
+                        <h5><i class="fas fa-smile me-2"></i>Emotion Analysis</h5>
+                    </div>
+                    <div class="emotion-body">
+                        <div id="emotionAnalysis">
+                            <div class="text-center py-4">
+                                <div class="spinner-border text-primary" role="status">
+                                    <span class="visually-hidden">Loading...</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Alerts Row -->
+        <div class="row">
+            <div class="col-12">
+                <div class="alerts-card">
+                    <div class="alerts-header">
+                        <h5><i class="fas fa-bell me-2"></i>Active Alerts</h5>
+                    </div>
+                    <div class="alerts-body">
+                        <div id="alertsList">
+                            <div class="text-center py-4">
+                                <div class="spinner-border text-primary" role="status">
+                                    <span class="visually-hidden">Loading...</span>
+                                </div>
+                                <p class="mt-2">Loading alerts...</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // Dashboard initialization
+        document.addEventListener('DOMContentLoaded', function() {
+            loadDashboardData();
+        });
+
+        function loadDashboardData() {
+            fetch('/api/dashboard_data')
+                .then(response => response.json())
+                .then(data => {
+                    updateMetrics(data.key_metrics);
+                    updateThemes(data.top_themes);
+                    updateEmotions(data.emotion_summary);
+                    createSentimentChart(data.key_metrics.sentiment_distribution);
+                    createThemesChart(data.top_themes);
+                    updateInsights(data);
+                    updateAlerts(data.alerts_count);
+                })
+                .catch(error => {
+                    console.error('Error loading dashboard data:', error);
+                    showErrorMessage();
+                });
+        }
+
+        function updateMetrics(metrics) {
+            document.getElementById('totalFeedback').textContent = metrics.total_feedback;
+            document.getElementById('overallSentiment').textContent = metrics.overall_sentiment.toUpperCase();
+            document.getElementById('avgConfidence').textContent = (metrics.average_confidence * 100).toFixed(0) + '%';
+        }
+
+        function updateThemes(themes) {
+            // Themes are displayed in the chart
+        }
+
+        function updateEmotions(emotions) {
+            const emotionDiv = document.getElementById('emotionAnalysis');
+            let html = '';
+
+            if (emotions.dominant_emotion) {
+                html += `<div class="emotion-item">
+                    <strong>Dominant:</strong> ${emotions.dominant_emotion.charAt(0).toUpperCase() + emotions.dominant_emotion.slice(1)}
+                </div>`;
+                html += `<div class="emotion-item">
+                    <strong>Total Emotions:</strong> ${emotions.total_emotions_detected}
+                </div>`;
+
+                // Show emotion distribution
+                if (emotions.emotion_distribution) {
+                    html += '<div class="mt-3"><h6>Distribution:</h6>';
+                    Object.entries(emotions.emotion_distribution).slice(0, 3).forEach(([emotion, data]) => {
+                        const percentage = (data.percentage * 100).toFixed(1);
+                        html += `<div class="emotion-bar">
+                            <span>${emotion}</span>
+                            <span>${percentage}%</span>
+                        </div>`;
+                    });
+                    html += '</div>';
+                }
+            } else {
+                html = '<p>No emotion data available</p>';
+            }
+
+            emotionDiv.innerHTML = html;
+        }
+
+        function createSentimentChart(sentimentDist) {
+            const data = [{
+                values: Object.values(sentimentDist),
+                labels: Object.keys(sentimentDist).map(s => s.charAt(0).toUpperCase() + s.slice(1)),
+                type: 'pie',
+                marker: {
+                    colors: ['#28a745', '#dc3545', '#6c757d']
+                },
+                textinfo: 'label+percent',
+                textposition: 'outside'
+            }];
+
+            const layout = {
+                title: '',
+                showlegend: true,
+                height: 300,
+                margin: {t: 20, b: 20, l: 20, r: 20}
+            };
+
+            Plotly.newPlot('sentimentChart', data, layout, {responsive: true});
+        }
+
+        function createThemesChart(themes) {
+            if (!themes || themes.length === 0) {
+                document.getElementById('themesChart').innerHTML = '<p class="text-muted text-center py-4">No themes data available</p>';
+                return;
+            }
+
+            const data = [{
+                x: themes.map(t => t.name),
+                y: themes.map(t => t.frequency),
+                type: 'bar',
+                marker: {
+                    color: themes.map(t => t.sentiment === 'positive' ? '#28a745' : t.sentiment === 'negative' ? '#dc3545' : '#6c757d')
+                }
+            }];
+
+            const layout = {
+                title: '',
+                height: 300,
+                margin: {t: 20, b: 60, l: 40, r: 20},
+                xaxis: {tickangle: -45}
+            };
+
+            Plotly.newPlot('themesChart', data, layout, {responsive: true});
+        }
+
+        function updateInsights(data) {
+            const insightsDiv = document.getElementById('keyInsights');
+            let html = '';
+
+            // Add key metrics insights
+            const metrics = data.key_metrics;
+            const sentiment = metrics.overall_sentiment;
+            const confidence = metrics.average_confidence;
+
+            html += `<div class="insight-item">
+                <i class="fas fa-info-circle text-info me-2"></i>
+                <span>Overall sentiment is <strong>${sentiment}</strong> with ${(confidence * 100).toFixed(0)}% average confidence</span>
+            </div>`;
+
+            // Add theme insights
+            if (data.top_themes && data.top_themes.length > 0) {
+                const topTheme = data.top_themes[0];
+                html += `<div class="insight-item">
+                    <i class="fas fa-tags text-primary me-2"></i>
+                    <span>Most frequent theme: <strong>${topTheme.name}</strong> (${topTheme.frequency} mentions)</span>
+                </div>`;
+            }
+
+            // Add emotion insights
+            if (data.emotion_summary.dominant_emotion) {
+                html += `<div class="insight-item">
+                    <i class="fas fa-heart text-danger me-2"></i>
+                    <span>Dominant emotion: <strong>${data.emotion_summary.dominant_emotion}</strong></span>
+                </div>`;
+            }
+
+            if (!html) {
+                html = '<p class="text-muted">No insights available</p>';
+            }
+
+            insightsDiv.innerHTML = html;
+        }
+
+        function updateAlerts(alertsCount) {
+            document.getElementById('alertsCount').textContent = alertsCount || 0;
+
+            const alertsDiv = document.getElementById('alertsList');
+            if (alertsCount && alertsCount > 0) {
+                alertsDiv.innerHTML = `
+                    <div class="alert alert-warning">
+                        <i class="fas fa-exclamation-triangle me-2"></i>
+                        You have ${alertsCount} active alert${alertsCount > 1 ? 's' : ''} that require attention.
+                    </div>
+                `;
+            } else {
+                alertsDiv.innerHTML = `
+                    <div class="alert alert-success">
+                        <i class="fas fa-check-circle me-2"></i>
+                        No active alerts. All systems are running smoothly.
+                    </div>
+                `;
+            }
+        }
+
+        function showErrorMessage() {
+            const errorHtml = `
+                <div class="alert alert-danger">
+                    <i class="fas fa-exclamation-circle me-2"></i>
+                    Failed to load dashboard data. Please refresh the page or try again later.
+                </div>
+            `;
+            document.getElementById('keyInsights').innerHTML = errorHtml;
+            document.getElementById('emotionAnalysis').innerHTML = errorHtml;
+            document.getElementById('alertsList').innerHTML = errorHtml;
+        }
+
+        function refreshDashboard() {
+            // Show loading state
+            document.getElementById('keyInsights').innerHTML = `
+                <div class="text-center py-4">
+                    <div class="spinner-border text-primary" role="status"></div>
+                    <p class="mt-2">Refreshing...</p>
+                </div>
+            `;
+
+            // Reload data
+            loadDashboardData();
+        }
+    </script>
+</body>
+</html>
